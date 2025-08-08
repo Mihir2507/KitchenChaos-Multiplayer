@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Comparers;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour, IKitchenObjectParent {
 
     #region Fields
 
@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private LayerMask countersLayer;
+    [SerializeField] Transform kitchenObjectHoldPoint;
 
     private bool isWalking;
 
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour {
     private Vector3 lastInteractionDir;
 
     private ClearCounter selectedCounter;
+    private KitchenObject kitchenObject;
 
     #endregion
 
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour {
 
     private void GameInput_OnInteractAction(object sender, EventArgs e) {
         if(selectedCounter != null) {
-            selectedCounter.Interact();
+            selectedCounter.Interact(this);
         }
     }
 
@@ -138,5 +140,32 @@ public class Player : MonoBehaviour {
         OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { 
             selectedCounter = selectedCounter
         });
+    }
+
+    public Transform GetKitchenObjectFollowTransform()
+    {
+        return kitchenObjectHoldPoint;
+    }
+
+    public void SetKitchenObject(KitchenObject kitchenObject)
+    {
+        this.kitchenObject = kitchenObject;
+    }
+
+    public KitchenObject GetKitchenObject()
+    {
+        return kitchenObject;
+    }
+
+    public void ClearKitchenObject()
+    {
+        kitchenObject = null;
+    }
+
+    public bool HasKitchenObject()
+    {
+        if (kitchenObject != null) return true;
+        else return false;
+
     }
 }
