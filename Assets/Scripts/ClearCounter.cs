@@ -9,21 +9,8 @@ public class ClearCounter : MonoBehaviour, IKitchenObjectParent
 
     [SerializeField] KitchenObjectSO kitchenObjectSO;
     [SerializeField] Transform counterTopPoint;
-    [SerializeField] ClearCounter secondCounter;
-    [SerializeField] bool testing;
 
     private KitchenObject kitchenObject;
-
-    public void Update()
-    {
-        if(testing && Input.GetKeyDown(KeyCode.T))
-        {
-            if (kitchenObject != null)
-            {
-                kitchenObject.SetKitchenObjectParent(secondCounter);
-            }
-        }
-    }
 
     public void Interact (Player player) {
         if( kitchenObject == null){
